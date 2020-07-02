@@ -4,6 +4,7 @@ class ListeClients extends Component {
   state = {
     title: "Liste des clients",
     nouveauClient: "",
+    focusedClient: "",
     clients: [
       { id: 1, nom: "Francis Bibeau" },
       { id: 2, nom: "Moctar Tolman" },
@@ -21,7 +22,6 @@ class ListeClients extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const clients = this.state.clients.slice();
-    console.log(clients);
 
     if (this.state.nouveauClient !== "") {
       clients.push({
@@ -41,17 +41,32 @@ class ListeClients extends Component {
       return client.id === id;
     });
     console.log(index);
+    clients.splice(index, 1);
+    this.setState({
+      clients: clients,
+    });
+  };
+
+  handleAdd = (client) => {
+    this.setState({
+      focusedClient: client.nom,
+    });
   };
 
   render() {
+    const focused = this.state.focusedClient;
     return (
       <div>
         <h3>{this.state.title}</h3>
         <ul>
           {this.state.clients.map((client) => (
-            <li>
-              {client.nom}{" "}
-              <button onClick={() => this.handleDelete(client.id)}>X</button>
+            <li key={client.id}>
+              <h3>
+                <span onClick={() => this.handleAdd(client)}>
+                  {client.nom + "   "}
+                </span>
+                <button onClick={() => this.handleDelete(client.id)}>X</button>
+              </h3>{" "}
             </li>
           ))}
         </ul>
@@ -64,6 +79,14 @@ class ListeClients extends Component {
           />
           <button>Confirmer</button>
         </form>
+
+        <div>
+          {focused === "" ? (
+            <div></div>
+          ) : (
+            <h3> Client selected : {this.state.focusedClient}</h3>
+          )}
+        </div>
       </div>
     );
   }
