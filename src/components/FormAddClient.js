@@ -28,8 +28,6 @@ export default class FormAddClient extends Component {
   };
 
   render() {
-    console.log(this.props);
-
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="form-group row">

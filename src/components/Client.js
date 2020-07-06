@@ -10,15 +10,13 @@ class Client extends Component {
   }
 
   render() {
+    const { client, onSup } = this.props;
     return (
       <React.Fragment>
-        <li key={this.props.client.id} className="list-group-item hoverr">
+        <li key={client.id} className="list-group-item hoverr">
           <h3 className="row">
-            <span className="col">{"   " + this.props.client.nom + "   "}</span>
-            <button
-              onClick={this.props.onSup}
-              className="btn btn-danger rounded-circle"
-            >
+            <span className="col">{"   " + client.nom + "   "}</span>
+            <button onClick={onSup} className="btn btn-danger rounded-circle">
               X
             </button>
           </h3>{" "}
