@@ -2,35 +2,27 @@ import React, { Component } from "react";
 import Client from "./Client";
 
 class ListeClients extends Component {
-  state = {
-    title: "Liste des clients",
-    clients: [
-      { id: 1, nom: "Francis Bibeau" },
-      { id: 2, nom: "Moctar Tolman" },
-      { id: 3, nom: "Karin Benzema" },
-    ],
-  };
-
   handleDelete = (id) => {
-    const clients = this.state.clients.slice();
+    const clients = this.props.clients.slice();
     const index = clients.findIndex(function (client) {
       return client.id === id;
     });
-    console.log(index);
+    console.log("tata ", clients);
     clients.splice(index, 1);
-    this.setState({
-      clients: clients,
-    });
+    this.props.handleSetState(clients);
   };
-
+  handeDelteAll = () => {
+    const clients = [];
+    this.props.handleSetState(clients);
+  };
   render() {
     return (
       <div>
-        <h3>{this.state.title}</h3>
-        <ul>
-          {this.state.clients.map((client) => (
+        <ul className="list-group list-group-flush">
+          {this.props.clients.map((client) => (
             <Client
               client={client}
+              key={client.id}
               onhandleClientSelectedAdd={() =>
                 this.handleClientSelected(client)
               }
@@ -38,6 +30,7 @@ class ListeClients extends Component {
             />
           ))}
         </ul>
+        <button onClick={this.handeDelteAll}>Effacer la liste</button>
       </div>
     );
   }

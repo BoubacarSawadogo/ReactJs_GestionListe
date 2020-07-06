@@ -5,31 +5,55 @@ import FormAddClient from "./components/FormAddClient";
 class App extends Component {
   state = {
     nouveauClient: "",
+    title: "Liste des clients",
+    clients: [
+      { id: 1, nom: "Francis Bibeau" },
+      { id: 2, nom: "Moctar Tolman" },
+      { id: 3, nom: "Karin Benzema" },
+    ],
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleAdd = (client) => {
     const clients = this.state.clients.slice();
-
-    if (this.state.nouveauClient !== "") {
-      clients.push({
-        id: new Date().getSeconds(),
-        nom: this.state.nouveauClient,
-      });
-    }
+    clients.push(client);
     this.setState({
       clients: clients,
-      nouveauClient: "",
+    });
+  };
+
+  handleSetState = (clients) => {
+    this.setState({
+      clients: clients,
     });
   };
 
   render() {
-    return (
-      <div className="App">
-        <ListeClients />
-        <FormAddClient handleSubmit={this.handleSubmit} />
-      </div>
-    );
+    if (this.state.clients.length !== 0) {
+      return (
+        <div className="container">
+          <div>
+            <h3 className="card-body p-3 mb-2 bg-dark text-white">
+              {this.state.title}
+            </h3>
+            <FormAddClient
+              clients={this.state.clients}
+              onAddClient={this.handleAdd}
+            />
+          </div>
+
+          <ListeClients
+            clients={this.state.clients}
+            handleSetState={this.handleSetState}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <h1 className="container p-3 mb-2 bg-dark text-white">
+          Pas de clients
+        </h1>
+      );
+    }
   }
 }
 
